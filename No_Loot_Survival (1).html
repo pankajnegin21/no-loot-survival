@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>No Loot Survival Challenge - eBook</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            background-color: #1b1b1b;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 20px;
+            background: rgba(34, 34, 34, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+            transition: 0.3s;
+        }
+        .question-container {
+            margin-top: 20px;
+            font-size: 18px;
+            background: rgba(15, 52, 96, 0.9);
+            padding: 15px;
+            border-radius: 5px;
+        }
+        button {
+            margin: 10px;
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background: #00adb5;
+            color: #ffffff;
+            transition: 0.3s;
+            display: block;
+            width: 100%;
+        }
+        button:hover {
+            background: #008b8b;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>No Loot Survival Challenge - eBook Edition</h2>
+        <p>Apna khelne ka map chuno:</p>
+        
+        <button onclick="startChallenge('erangel')">Erangel</button>
+        <button onclick="startChallenge('miramar')">Miramar</button>
+        <button onclick="startChallenge('sanhok')">Sanhok</button>
+        <button onclick="startChallenge('vikendi')">Vikendi</button>
+        
+        <div id="questionArea" class="question-container"></div>
+        <p id="result"></p>
+    </div>
+    
+    <script>
+        let questions = {
+            erangel: [
+                { q: "Erangel me sabse zyada loot kahan milti hai?", options: ["School", "Pochinki", "Georgopol", "Military Base"], a: 2 },
+                { q: "Erangel me kaunsa jagah campers ke liye best hai?", options: ["Rozhok", "Mylta", "Pochinki", "Prison"], a: 0 },
+                { q: "Kaunsa vehicle Erangel me sabse tez hai?", options: ["Buggy", "UAZ", "Dacia", "Motorcycle"], a: 3 }
+            ],
+            miramar: [
+                { q: "Miramar ka sabse bada sheher kaunsa hai?", options: ["Los Leones", "Pecado", "Chumacera", "Hacienda"], a: 0 },
+                { q: "Miramar me kaunsa sniper rifle sabse effective hai?", options: ["M24", "AWM", "Kar98", "Win94"], a: 1 },
+                { q: "Miramar me kaunsa vehicle sabse slow hai?", options: ["Pickup Truck", "Van", "Motorcycle", "Mirado"], a: 1 }
+            ],
+            sanhok: [
+                { q: "Sanhok me sabse high loot area kaunsa hai?", options: ["Paradise Resort", "Bootcamp", "Camp Alpha", "Ruins"], a: 1 },
+                { q: "Sanhok me zyada ghana jungle kis side hai?", options: ["North", "South", "West", "East"], a: 2 },
+                { q: "Sanhok ka secret cave loot kaunsa jagah hai?", options: ["Quarry", "Cave", "Lakawi", "Pai Nan"], a: 1 }
+            ],
+            vikendi: [
+                { q: "Vikendi me best long-range weapon kaunsi hai?", options: ["MK14", "SLR", "Mini14", "AWM"], a: 3 },
+                { q: "Vikendi me frozen lake kahan hai?", options: ["Dobro Mesto", "Cosmodrome", "Podvosto", "Castle"], a: 2 },
+                { q: "Vikendi me kaunsa vehicle ice par sabse stable hai?", options: ["Snowmobile", "Motorcycle", "UAZ", "Buggy"], a: 0 }
+            ]
+        };
+
+        let currentMap = "";
+        let score = 0;
+        let currentQuestion = 0;
+
+        function startChallenge(map) {
+            currentMap = map;
+            score = 0;
+            currentQuestion = 0;
+            showQuestion();
+        }
+
+        function showQuestion() {
+            let questionArea = document.getElementById("questionArea");
+            let resultArea = document.getElementById("result");
+            
+            if (currentQuestion < questions[currentMap].length) {
+                let q = questions[currentMap][currentQuestion];
+                let optionsHTML = q.options.map((opt, i) => `<button onclick="checkAnswer(${i})">${opt}</button>`).join('');
+                questionArea.innerHTML = `<p>${q.q}</p>${optionsHTML}`;
+            } else {
+                questionArea.innerHTML = `<h3>Score: ${score}/${questions[currentMap].length}</h3>`;
+                resultArea.innerText = score >= 2 ? "Aapka khel behatar hai!" : "Aapko aur practice ki zaroorat hai!";
+            }
+        }
+
+        function checkAnswer(selected) {
+            if (selected === questions[currentMap][currentQuestion].a) {
+                score++;
+            }
+            currentQuestion++;
+            showQuestion();
+        }
+    </script>
+</body>
+</html>
